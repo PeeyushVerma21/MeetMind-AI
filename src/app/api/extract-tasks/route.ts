@@ -7,14 +7,15 @@ export async function POST(req: Request) {
     const result = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: `
-Extract action items from this meeting.
+Extract action items from this meeting transcript.
+Respond ONLY with a valid JSON array of objects. Do not include markdown formatting or backticks.
 
-Return ONLY JSON like:
+Format:
 [
- { "title":"task", "owner":"person", "deadline":"date or null" }
+  { "title": "specific task", "owner": "person name", "deadline": "date or TBD" }
 ]
 
-Meeting:
+Transcript:
 ${transcript}
 `,
     })
