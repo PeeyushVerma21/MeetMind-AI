@@ -35,7 +35,7 @@ export default async function MeetingPage({
                         <Link href="/dashboard" className="text-sm font-medium text-gray-400 hover:text-white mb-3 inline-block transition-colors">
                             ← Back to Dashboard
                         </Link>
-                        <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-tight mb-2">
+                        <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-white to-gray-400 tracking-tight mb-2">
                             {meeting.title}
                         </h1>
                         <p className="text-gray-500 font-mono text-sm">
