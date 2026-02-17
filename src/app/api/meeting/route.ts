@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../auth/[...nextauth]/route"
+import { extractTasksFromTranscript } from "../extract-tasks/route"
 
 export async function POST(req: Request) {
     try {
@@ -22,18 +23,12 @@ export async function POST(req: Request) {
         }
 
         // 🔥 Extract tasks first
-        const taskRes = await fetch("http://localhost:3000/api/extract-tasks", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ transcript }),
-        })
-
-        const { tasks } = await taskRes.json()
+        const tasksRaw = await extractTasksFromTranscript(transcript)
 
         let parsedTasks = []
         try {
             // Remove markdown code blocks if they exist
-            const cleanTasks = tasks.replace(/```json|```/g, "").trim()
+            const cleanTasks = tasksRaw.replace(/```json|```/g, "").trim()
             parsedTasks = JSON.parse(cleanTasks)
         } catch (e) {
             console.error("JSON Parse Error for tasks:", e)

@@ -1,9 +1,7 @@
 import { ai } from "@/lib/gemini"
 
-export async function POST(req: Request) {
+export async function extractTasksFromTranscript(transcript: string) {
   try {
-    const { transcript } = await req.json()
-
     const result = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: `
@@ -20,9 +18,25 @@ ${transcript}
 `,
     })
 
-    return Response.json({ tasks: result.text })
+    return result.text
+  } catch (error) {
+    console.error("Task Extraction Error:", error)
+    return JSON.stringify([
+      {
+        title: "Follow up on meeting discussion",
+        owner: "Team",
+        deadline: "TBD",
+      },
+    ])
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const { transcript } = await req.json()
+    const tasks = await extractTasksFromTranscript(transcript)
+    return Response.json({ tasks })
   } catch {
-    // fallback if quota hit
     return Response.json({
       tasks: JSON.stringify([
         {

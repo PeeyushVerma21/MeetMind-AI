@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma"
 import DeleteMeetingButton from "@/components/DeleteMeetingButton"
 import Link from "next/link"
 
+export const dynamic = "force-dynamic"
+
 export default async function MeetingPage({
     params,
 }: {
