@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         let parsedTasks = []
         try {
             // Remove markdown code blocks if they exist
-            const cleanTasks = tasksRaw.replace(/```json|```/g, "").trim()
+            const cleanTasks = (tasksRaw || "").replace(/```json|```/g, "").trim()
             parsedTasks = JSON.parse(cleanTasks)
         } catch (e) {
             console.error("JSON Parse Error for tasks:", e)
