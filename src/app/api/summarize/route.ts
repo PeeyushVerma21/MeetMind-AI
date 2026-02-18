@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const { transcript } = await req.json()
 
     const result = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       contents: `Summarize this meeting in bullet points:\n${transcript}`,
     })
 
